@@ -1973,14 +1973,14 @@ margin-left: 10px;
 }
 
 .section_services .services_box_nav .nav-tabs {
-  background-color: #273b5e;
+  background-color: #ffffff00;
   color: var(--whitecolor);
   font-weight: 600;
   text-transform: capitalize;
 }
 
 .section_services .services_box_nav .nav-tabs .nav-link {
-  color: var(--whitecolor);
+    color: #121111;
   padding: 20px;
   display: flex;
   gap: 10px;
@@ -3109,6 +3109,10 @@ background-color: var(--bg-lightcolor);
 .section_confirm_pay  .text_child_head.active{
   border-left: 4px solid var(--background-btn);
   margin: 10px -20px;
+}
+.checkout_section .text_child_head.active{
+    border-left: 4px solid var(--background-btn);
+    margin: 10px -20px;
 }
 .section_confirm_pay .box_card_heading a{
   color: var(--blackcolor);

@@ -1,0 +1,12 @@
+# disable directory listing
+Options -Indexes
+DirectorySlash Off
+
+Header set X-Content-Type-Options "nosniff"
+
+
+# Run Php without filename extension
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php

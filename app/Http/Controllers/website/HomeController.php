@@ -6,12 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\PaymentMethod;
 use App\Models\SubCategory;
-use App\Models\Order;
 use App\Models\SubCategoryDetail;
 use App\Models\Transaction;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -28,19 +27,19 @@ class HomeController extends Controller
      */
     public function home()
     {
-        $products = Category::get();
-        $subCategory = SubCategory::get();
-        return view('website.pages.home', compact('products', 'subCategory'));
-
+        $categories = Category::get();  // Renamed to $categories for better clarity
+        $subCategories = SubCategory::get();  // Renamed to $subCategories for clarity
+        return view('website.pages.home', compact('categories', 'subCategories'));  // Updated variable names in the compact function
     }
+
 
     public function buyServices()
     {
-        $products = Category::get();
-        $subCategory = SubCategory::get();
-        return view('website.pages.buy-services', compact('products', 'subCategory'));
-
+        $categories = Category::get();  // Renamed $products to $categories for clarity
+        $subCategories = SubCategory::get();  // Renamed $subCategory to $subCategories for consistency
+        return view('website.pages.buy-services', compact('categories', 'subCategories'));  // Updated variable names in the compact function
     }
+
 
     public function blogs()
     {
@@ -97,7 +96,6 @@ class HomeController extends Controller
             $decryptedId = decryptstring($id);
 
 
-
             // Retrieve sub-category and related details
             $subCategory = SubCategory::findOrFail($decryptedId);
 
@@ -110,7 +108,7 @@ class HomeController extends Controller
 
             // Return the view with the retrieved data
             return view('website.pages.service', compact('subCategory', 'sub_category_detail'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log the error for debugging purposes
             Log::error($e);
 
@@ -134,7 +132,7 @@ class HomeController extends Controller
 
             // Return the view with the retrieved data
             return view('website.pages.order-detail', compact('subCategory'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log the error for debugging purposes
             Log::error($e);
 
@@ -161,7 +159,7 @@ class HomeController extends Controller
 
             // Return the view with the retrieved data
             return view('website.pages.upload-files', compact('subCategory'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log the error for debugging purposes
             Log::error($e);
 
@@ -182,7 +180,6 @@ class HomeController extends Controller
             ->get();
 
 
-
         try {
             // Decrypt the ID received from the URL
             $decryptedId = decryptstring($id);
@@ -195,8 +192,8 @@ class HomeController extends Controller
             }
 
             // Return the view with the retrieved data
-            return view('website.pages.confirm-and-pay', compact('subCategory','payment_methods'));
-        } catch (\Exception $e) {
+            return view('website.pages.confirm-and-pay', compact('subCategory', 'payment_methods'));
+        } catch (Exception $e) {
             // Log the error for debugging purposes
             Log::error($e);
 
@@ -229,7 +226,7 @@ class HomeController extends Controller
 
             // Return the view with the retrieved data
             return view('website.pages.congratulation', compact('subCategory', 'transaction'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log the error for debugging purposes
             Log::error($e);
 
@@ -254,18 +251,12 @@ class HomeController extends Controller
     {
         $subCategory = DB::table('sub_categories')
             ->join('categories', 'sub_categories.category_id', '=', 'categories.id')
-            ->select('sub_categories.name', 'sub_categories.description', 'sub_categories.image', 'sub_categories.id','sub_categories.category_id')
+            ->select('sub_categories.name', 'sub_categories.description', 'sub_categories.image', 'sub_categories.id', 'sub_categories.category_id')
             ->Where('categories.id', $id)
             ->get();
-
-        $activeCategory =  $id ?? null;
-
-
-
+        $activeCategory = $id ?? null;
         $products = Category::get();
-
-
-        return view('website.pages.buy-services', compact('subCategory', 'products','activeCategory'));
+        return view('website.pages.buy-services', compact('subCategory', 'products', 'activeCategory'));
     }
 
     function sub_category_detail_search($id)
@@ -278,52 +269,4 @@ class HomeController extends Controller
         return $sub_category_detail;
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

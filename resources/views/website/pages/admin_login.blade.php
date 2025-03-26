@@ -4,8 +4,8 @@
 Admin Login
 @endpush
 
-@section('content') 
-  
+@section('content')
+
     <style>
       .sign_up_section .panel-body{
       display: flex;
@@ -127,7 +127,7 @@ Admin Login
                           </div>
                         </div>
 
-                        
+
                         <div class="panel panel-primary setup-content" id="step-2">
                           <div class="panel-body">
                             <div class="form-group form_group_signip">
@@ -178,7 +178,7 @@ Admin Login
                               @enderror
                               </div>
                           </div>
-  
+
                           <div class="form-group row">
                               <label for="password" class="col-md-12 col-form-label ">Password</label>
                               <div class="col-md-12">
@@ -191,7 +191,7 @@ Admin Login
                               @enderror
                               </div>
                           </div>
-  
+
                           <div class="form-group row">
                               <div class="col-md-6 " >
                                   <div class="checkbox">
@@ -201,7 +201,7 @@ Admin Login
                                   </div>
                               </div>
                           </div>
-  
+
                           <div class="col-md-12">
                               <button type="submit" class="btn  w-100 btn-primary">
                                   Login

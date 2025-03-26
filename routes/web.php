@@ -1,46 +1,33 @@
 <?php
 
 
+use App\Http\Controllers\admin\CareerJobsController;
+use App\Http\Controllers\admin\ChatController;
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\EmailSettingController;
+use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\OrderDetailController;
+use App\Http\Controllers\admin\PaymentMethodController;
+use App\Http\Controllers\admin\PaymentsController;
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\admin\QuestionController;
+use App\Http\Controllers\admin\QuizController;
+use App\Http\Controllers\admin\ReportController;
+use App\Http\Controllers\admin\SettingController;
+use App\Http\Controllers\admin\SubCategoryController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\NamecheapController;
 use App\Http\Controllers\PerfectMoneyController;
+use App\Http\Controllers\StripePaymentController;
+use App\Http\Controllers\website\DomainController;
+use App\Http\Controllers\website\HomeController;
+use App\Http\Controllers\website\HostingController;
+use App\Http\Controllers\website\JobApplicant;
+use App\Http\Controllers\website\PaypalController as webPaypalController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Auth\AuthController;
-
-use App\Http\Controllers\admin\ProductController;
-
-use App\Http\Controllers\admin\OrderController;
-
-use App\Http\Controllers\admin\ReportController;
-
-use App\Http\Controllers\admin\ProfileController;
-
-use App\Http\Controllers\admin\SettingController;
-
-use App\Http\Controllers\admin\DashboardController;
-
-use App\Http\Controllers\admin\SubCategoryController;
-
-use App\Http\Controllers\admin\OrderDetailController;
-
-use App\Http\Controllers\admin\UserController;
-
-use App\Http\Controllers\admin\ChatController;
-
-use App\Http\Controllers\admin\PaymentMethodController;
-
-use App\Http\Controllers\admin\EmailSettingController;
-
-
-use App\Http\Controllers\admin\PaymentsController;
-
-use App\Http\Controllers\website\PaypalController as webPaypalController;
-
-
-use App\Http\Controllers\website\HomeController;
-
-use Illuminate\Support\Facades\Auth;
-
-use App\Providers\RouteServiceProvider;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,9 +40,24 @@ use App\Providers\RouteServiceProvider;
 |
 */
 
+Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
+Route::get('/quizzes/{quiz}', [QuizController::class, 'show'])->name('quizzes.show');
+Route::post('/quizzes/{quiz}/submit', [QuizController::class, 'submit'])->name('quizzes.submit')->middleware('auth');
+Route::get('/quizzes/{quiz}/result', [QuizController::class, 'result'])->name('quizzes.result')->middleware('auth');
+
+
 Route::fallback(function () {
     return view('errors.404');
 
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/quizzes', [QuizController::class, 'get'])->name('admin.quizzes.index');
+    Route::get('/quizzes/create', [QuizController::class, 'create'])->name('admin.quizzes.create');
+    Route::post('/quizzes', [QuizController::class, 'store'])->name('admin.quizzes.store');
+    Route::get('/quizzes/{quiz}/edit', [QuizController::class, 'edit'])->name('admin.quizzes.edit');
+    Route::put('/quizzes/{quiz}', [QuizController::class, 'update'])->name('admin.quizzes.update');
+    Route::delete('/quizzes/{quiz}', [QuizController::class, 'destroy'])->name('admin.quizzes.destroy');
 });
 
 //PUBLIC ROUTES START FROM HERE
@@ -72,7 +74,7 @@ Route::post('user-registration', [AuthController::class, 'userRegistration'])->n
 
 //CHAT ROUTES START FROM HERE
 Route::post('sendmessage', [ChatController::class, 'sendMessage'])->name('sendMessage');
-Route::get('/chat-history', [ChatController::class, 'getChatHistory'])->name('getChatHistory')->middleware('auth');;
+Route::get('/chat-history', [ChatController::class, 'getChatHistory'])->name('getChatHistory')->middleware('auth');
 Route::get('/new-messages', [ChatController::class, 'getNewMessages'])->name('getNewMessages');
 //CHAT ROUTES  END FROM HERE
 
@@ -82,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['middleware' => 'authenticate_user'], function () {
         Route::resource('orders', OrderController::class);
-        Route::get('payments', [PaymentsController::class,'paymentReports'])->name('payments');
+        Route::get('payments', [PaymentsController::class, 'paymentReports'])->name('payments');
         Route::post('/store-order-details', [OrderController::class, 'storeOrderDetails'])->name('store.order.details');
         Route::get('order_detail_search/{id}', [OrderController::class, 'orderSearch'])->name('order_detail_search');
         Route::resource('profile', ProfileController::class);
@@ -104,9 +106,44 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('orders', OrderController::class);
         Route::resource('email-settings', EmailSettingController::class);
         Route::post('/update-order-status', [OrderController::class, 'updateOrderStatus'])->name('update-order-status');
+
+        Route::get('jobs', [CareerJobsController::class, 'index'])->name('jobs.index');
+        Route::get('job-applicants', [JobApplicant::class, 'jobApplicants'])->name('job.applicants');
+        Route::get('download/resume/{filename}', [JobApplicant::class, 'downloadResume'])->name('download.resume');
+        Route::get('download/portfolio/{filename}', [JobApplicant::class, 'downloadPortfolio'])->name('download.portfolio');
+        Route::get('jobs/create', [CareerJobsController::class, 'create'])->name('jobs.create');
+        Route::post('jobs/store', [CareerJobsController::class, 'store'])->name('jobs.store');
+        Route::Delete('jobs/destroy/{id}', [CareerJobsController::class, 'destroy'])->name('jobs.destroy');
+        Route::get('jobs/trashed', [CareerJobsController::class, 'trashed'])->name('jobs.trashed');
+    Route::put('jobs/restore/{id}', [CareerJobsController::class, 'restore'])->name('jobs.restore');
+        Route::get('jobs/edit/{id}', [CareerJobsController::class, 'edit'])->name('jobs.edit');
+        Route::put('jobs/update/{id}', [CareerJobsController::class, 'update'])->name('jobs.update');
+        Route::Delete('job-applicants/destroy/{id}', [CareerJobsController::class, 'jobapplicantdestroy'])->name('job-applicants.destroy');
+
+
+
+        Route::get('quizzes/question/create/{id}', [QuestionController::class, 'create'])->name('quiz.questions.create');
+        Route::post('questions', [QuestionController::class, 'store'])->name('questions.store');
+        Route::get('quizzes-questions-show/{id}', [QuestionController::class, 'questionsShow'])->name('quizzes.questions.show');
+        Route::post('/update-answer', [QuestionController::class, 'updateAnswer'])->name('updateAnswer');
+
+
+
+        Route::get('/quizzes', [QuizController::class, 'get'])->name('quizzes.index');
+        Route::get('/quizzes/create', [QuizController::class, 'create'])->name('quizzes.create');
+        Route::get('/quizzes/{quiz}/edit', [QuizController::class, 'edit'])->name('quizzes.edit');
+        Route::put('/quizzes/{quiz}', [QuizController::class, 'update'])->name('quizzes.update');
+        Route::delete('/quizzes/{quiz}', [QuizController::class, 'destroy'])->name('quizzes.destroy');
+
+
+        Route::get('quizzes-questions/{id}', [\App\Http\Controllers\My\QuizController::class, 'create'])->name('quizzes-questions-create');
+        Route::get('questions-index/{id}', [QuestionController::class, 'index'])->name('questions.index');
+
+
+
     });
 });
-
+Route::get('user-score', [\App\Http\Controllers\website\QuizController::class, 'UserScore'])->name('user.score');
 // NOTIFICATIONS ROUTES START FROM HERE
 Route::get('/notifications', [DashboardController::class, 'getNotifications']);
 Route::match(['get', 'post'], '/update-notification-status', [DashboardController::class, 'updateStatus'])->name('update-notification-status');
@@ -117,6 +154,8 @@ Route::match(['get', 'post'], '/update-notification-status', [DashboardControlle
 Route::post('reorder/{id?}', [OrderController::class, 'reOrder'])->name('re_order.store');
 // PERFECT MONEY ROUTES END FROM HERE
 
+Route::get('jobs', [CareerJobsController::class, 'jobList'])->name('jobs');
+Route::post('job-apply', [CareerJobsController::class, 'jobApply'])->name('job.apply');
 
 //PAYMENT ROUTES START FROM HERE
 Route::get('payments/{id}', [PaymentsController::class, 'index'])->name('payments.page');
@@ -150,7 +189,7 @@ Route::get('terms-and-conditions', [HomeController::class, 'termsAndConditions']
 //Website MAIN MENUS  ROUTES END FROM HERE
 
 
-Route::controller(\App\Http\Controllers\StripePaymentController::class)->group(function(){
+Route::controller(StripePaymentController::class)->group(function () {
     Route::get('stripe', 'stripe');
     Route::post('stripe', 'stripePost')->name('stripe.post');
 });
@@ -160,18 +199,9 @@ Route::get('sub_category_detail_search/{id}', [HomeController::class, 'sub_categ
 //Categories routes End
 
 
-
-
-
-
-
-
-
-
-
-Route::get('/checkout',  [PaymentMethodController::class,'checkout'])->name('checkout');
-Route::post('/checkout/process',  [PaymentsController::class,'index'])->name('checkout.process');
-Route::get('/payment/success', [PaymentsController::class,'paymentSuccess'])->name('payment.success');
+Route::get('/checkout', [PaymentMethodController::class, 'checkout'])->name('checkout');
+Route::post('/checkout/process', [PaymentsController::class, 'index'])->name('checkout.process');
+Route::get('/payment/success', [PaymentsController::class, 'paymentSuccess'])->name('payment.success');
 
 
 /*
@@ -190,194 +220,10 @@ Route::controller(PerfectMoneyController::class)->group(function () {
 });
 
 
-
-
-
-
-
-
 Route::get('/success', function () {
     // Return a view named 'example'
     return view('website.pages.success');
 })->name('success');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //Route::post('admin-post-login', [AuthController::class, 'adminpostLogin'])->name('admin.login.post');
@@ -394,3 +240,26 @@ Route::post('post-registration', [AuthController::class, 'postRegistration'])->n
 
 
 
+//Quizzes
+
+
+Route::get('quiz', [\App\Http\Controllers\website\QuizController::class, 'index'])->name('quiz');
+Route::get('quiz-test/{id}', [\App\Http\Controllers\website\QuizController::class, 'testAttempt'])->name('quiz-test');
+Route::get('/quiz/{quizId}/attempt/{questionStep}', [\App\Http\Controllers\website\QuizController::class, 'testAttempt'])->name('quiz.attempt');
+Route::post('/quiz/{quizId}/answer/{questionStep}', [\App\Http\Controllers\website\QuizController::class, 'submitAnswer'])->name('quiz.answer');
+Route::get('/quiz/{quizId}/complete', [\App\Http\Controllers\website\QuizController::class, 'quizComplete'])->name('quiz.complete');
+
+
+
+//Domain and hosting routes
+Route::post('/domain/search', [DomainController::class, 'search']);
+Route::post('/domain/register', [DomainController::class, 'register']);
+
+Route::post('/hosting/create', [HostingController::class, 'create']);
+Route::get('/hosting/plans', [HostingController::class, 'getPlans']);
+Route::get('/namecheap/create-domain', [NamecheapController::class, 'createTestDomain']);
+Route::get('/namecheap/get-domains', [NamecheapController::class, 'index']);
+
+Route::get('/namecheap/check-domain', [NamecheapController::class, 'showDomainCheckForm'])->name('namecheap.showDomainCheckForm');
+Route::post('/namecheap/check-domain', [NamecheapController::class, 'checkDomainAvailability'])->name('namecheap.checkDomainAvailability');
+Route::post('/namecheap/get-domain-info', [NamecheapController::class, 'getDomainInfo'])->name('namecheap.getDomainInfo');

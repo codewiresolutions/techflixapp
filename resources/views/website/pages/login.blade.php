@@ -214,7 +214,7 @@ Login
                     <div class="already_account">
                       didn't hava an account ?
                       <span>
-                      <a href="#">sign up</a>
+                      <a href="{{ route('register') }}">sign up</a>
                       </span>
                     </div>
                   </div>
