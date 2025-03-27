@@ -3,7 +3,7 @@
 
 @media (min-width:768px) and (max-width:992px) {
 
- 
+
     .section_setting .setting_box .nav-tabs {
         gap: 10px;
     }
@@ -273,7 +273,7 @@
     border-radius: 20px;
     }
     .quiz_screen_section .text_lenght {
-       
+
         margin: 0px 0px;
     }
     .box_contract {
@@ -292,7 +292,7 @@
     .blog_nav_menu .nav{
         gap: 0px !important;
     }
- 
+
     .manage_order_section .table_box{
         padding: 10px !important;
     }
@@ -693,9 +693,9 @@
 
 @media (min-width:992px) {
     .section_services .main-img_lenght .main-text{
-        
+
         margin: 20px 0px 20px -15px;
-  
+
       }
 }
 
@@ -727,7 +727,7 @@
 }
 
 @media (min-width:900px) {
- 
+
 
 
     .buy_services .targetting_child {
@@ -748,7 +748,7 @@
     }
 
     .card {
-        width: 18rem;
+        width: 24rem;
     }
 
     .section_tip_page .postioning_box_text {
@@ -768,7 +768,7 @@
         top: 0;
         width: 4px;
         height: 100%;
-      
+
     }
     .section_time_line_secondary .timeline .timeline-container .timeline-icon {
         position: absolute;
@@ -788,58 +788,58 @@
     }
 
 
-  
+
     .container_time {
       width: 100%;
       padding-left: 120px;
       padding-right: 30px;
     }
-  
+
     .container_time.right {
       left: 0%;
     }
-  
-    .container_time.left::after, 
+
+    .container_time.left::after,
     .container_time.right::after {
       left: 82px;
     }
-  
+
     .container_time.left::before,
     .container_time.right::before {
       left: 100px;
       border-color: transparent #006E51 transparent transparent;
     }
-  
+
     .container_time.left .date,
     .container_time.right .date {
       right: auto;
       left: 15px;
     }
-  
+
     .container_time.left .icon,
     .container_time.right .icon {
       right: auto;
       left: 146px;
     }
-  
+
     .container_time.left .content,
     .container_time.right .content {
       padding: 30px 30px 30px 90px;
-     
+
     }
   }
 
   @media (max-width:992px) {
-    .container_wrapper.active{ 
+    .container_wrapper.active{
 
       padding-left: 35px;
-     
+
       padding-right: 35px;
        }
 
       .container_wrapper {
         padding-left: 35px;
-  
+
     padding-right: 35px;
     }
     .box_girl_avtar {
