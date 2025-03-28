@@ -139,8 +139,10 @@ Dashboard
                                 <ul class="nav" id="pricingTabs" role="tablist">
                                     @if(isset($sub_category_detail))
                                         @foreach($sub_category_detail as $product)
-                                            <li class=" flex-fill  border-right border-bottom" role="presentation">
-                                                <a class="nav-link {{ $loop->first ? 'active' : '' }} fw-bold text-center text-secondary"
+                                            <li style="    "
+                                                 class="py-2 flex-fill border-right border-bottom" role="presentation">
+                                                <a class="nav-link {{ $loop->first ? 'active' : '' }} fw-bold text-center "
+                                                    style = "color:black;"
                                                    id="{{ $product->type }}-tab" data-bs-toggle="tab" href="#{{ $product->type }}"
                                                    role="tab" aria-controls="{{ $product->type }}"
                                                    aria-selected="{{ $loop->first ? 'true' : 'false' }}">
@@ -150,6 +152,7 @@ Dashboard
                                         @endforeach
                                     @endif
                                 </ul>
+
 
 
 
@@ -218,7 +221,7 @@ Dashboard
                                                 </ul>
 
                                                 <a href="#" class="btn btn-primary w-100 no-rounded">Continue</a>
-                                                <h6 class="text-center mt-2">Compare Package</h6>
+                                              
                                             </div>
 
                                             <!-- Standard Tab -->
@@ -404,21 +407,24 @@ Dashboard
     integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
-    .nav-link.active-tab {
-        background-color: white !important;
-        color: black !important;
-        border-bottom: 2px solid black !important; /* New color and size */
-        padding-bottom: -14px;
-    }
+    /* Active Tab */
+.nav-link.active {
+    background-color: white !important;
+    color: black !important;
+    border-bottom: 2px solid black !important; /* Override Bootstrap's border styles */
+    padding-bottom: 0px !important; /* Fix padding */
+}
 
-    .nav-link.inactive-tab {
-        background-color: #f0f0f0 !important; /* Aqua background for inactive tabs */
-        color: #4B5563; /* Custom gray text color for inactive tabs */
-        border-bottom: none; /* Ensure no border for inactive tabs */
-        padding-top: 15px;  /* Adjust the top padding */
-        padding-bottom: 15px; /* Adjust the bottom padding */
-        font-size: 16px;
-    }
+/* Inactive Tabs */
+.nav-link {
+    background-color: #f0f0f0 !important; /* Inactive background */
+    color: #4B5563 !important; /* Custom text color */
+    border-bottom: none !important; /* No border for inactive tabs */
+    padding-top: 15px !important;  /* Adjust the top padding */
+    padding-bottom: 15px !important; /* Adjust the bottom padding */
+    font-size: 16px !important;  /* Font size */
+}
+
 
     .delivery-section, .revisions-section {
         display: flex;
@@ -473,7 +479,41 @@ Dashboard
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script>
+    $(document).ready(function() {
+    // Apply styles to all nav-links
+    $('#pricingTabs .nav-link').addClass('nav-link').css({
+        'background-color': '',
+        'color': 'black'
+    });
+
+    // Apply styles to active tab
+    $('#pricingTabs .nav-link.active').addClass('nav-link active').css({
+        'background-color': 'white',
+        'color': 'black',
+        'border-bottom': '2px solid black'
+    });
+
+    // Handle tab click events to update styles dynamically
+    $('#pricingTabs .nav-link').click(function() {
+        // Remove active styles from all tabs
+        $('#pricingTabs .nav-link').removeClass('active').css({
+            'background-color': '',
+            'color': 'black',
+            'border-bottom': ''  // Reset to default
+        });
+
+        // Apply active styles to clicked tab
+        $(this).addClass('active').css({
+            'background-color': 'white',
+            'color': 'black',
+            'border-bottom': '2px solid black'
+        });
+    });
+});
     $(document).ready(function () {
             // Initialize Slick Carousel
             $('.slider-for').slick({
