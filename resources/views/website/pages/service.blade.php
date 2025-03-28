@@ -136,10 +136,10 @@ Dashboard
                         <div class="card">
                             <div class="">
                                 <!-- Pricing Tabs -->
-                                <ul class="nav nav-tabs d-flex w-100" id="pricingTabs" role="tablist">
+                                <ul class="nav" id="pricingTabs" role="tablist">
                                     @if(isset($sub_category_detail))
                                         @foreach($sub_category_detail as $product)
-                                            <li class="nav-item flex-fill border-end" role="presentation">
+                                            <li class=" flex-fill  border-right border-bottom" role="presentation">
                                                 <a class="nav-link {{ $loop->first ? 'active' : '' }} fw-bold text-center text-secondary"
                                                    id="{{ $product->type }}-tab" data-bs-toggle="tab" href="#{{ $product->type }}"
                                                    role="tab" aria-controls="{{ $product->type }}"
