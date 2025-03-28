@@ -221,8 +221,9 @@ Dashboard
                                                     @endif
                                                 </ul>
 
-                                                <a href="#" class="btn btn-primary w-100 no-rounded">Continue</a>
-                                                <h6 class="text-center mt-2">Compare Package</h6>
+
+                                                <a href="{{ route('order_detail.page', encryptstring($subCategory->id)) }}"
+                                                    class="btn btn-primary w-100 no-rounded">Continue</a>
                                             </div>
 
                                             <!-- Standard Tab -->
@@ -552,7 +553,7 @@ Dashboard
         $(document).ready(function() {
     // Apply styles to all nav-links
     $('#pricingTabs .nav-link').addClass('nav-link').css({
-        'background-color': 'gray',
+        'background-color': '',
         'color': 'black'
     });
 
@@ -567,7 +568,7 @@ Dashboard
     $('#pricingTabs .nav-link').click(function() {
         // Remove active styles from all tabs
         $('#pricingTabs .nav-link').removeClass('active').css({
-            'background-color': 'gray',
+            'background-color': '',
             'color': 'black',
             'border-bottom': ''  // Reset to default
         });
