@@ -139,12 +139,13 @@ Dashboard
                                 <ul class="nav" id="pricingTabs" role="tablist">
                                     @if(isset($sub_category_detail))
                                         @foreach($sub_category_detail as $product)
-                                            <li style="    "
-                                                 class="py-2 flex-fill border-right border-bottom" role="presentation">
-                                                <a class="nav-link {{ $loop->first ? 'active' : '' }} fw-bold text-center "
-                                                    style = "color:black;"
-                                                   id="{{ $product->type }}-tab" data-bs-toggle="tab" href="#{{ $product->type }}"
-                                                   role="tab" aria-controls="{{ $product->type }}"
+                                            <li class="py-2 flex-fill border-right border-bottom" role="presentation">
+                                                <a class="nav-link {{ $loop->first ? 'active' : '' }} fw-bold text-center"
+                                                   id="{{ $product->type }}-tab"
+                                                   data-bs-toggle="tab"
+                                                   href="#{{ $product->type }}"
+                                                   role="tab"
+                                                   aria-controls="{{ $product->type }}"
                                                    aria-selected="{{ $loop->first ? 'true' : 'false' }}">
                                                     {{ $product->type }}
                                                 </a>
@@ -221,7 +222,7 @@ Dashboard
                                                 </ul>
 
                                                 <a href="#" class="btn btn-primary w-100 no-rounded">Continue</a>
-                                              
+                                                <h6 class="text-center mt-2">Compare Package</h6>
                                             </div>
 
                                             <!-- Standard Tab -->
@@ -479,41 +480,7 @@ Dashboard
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script>
-    $(document).ready(function() {
-    // Apply styles to all nav-links
-    $('#pricingTabs .nav-link').addClass('nav-link').css({
-        'background-color': '',
-        'color': 'black'
-    });
-
-    // Apply styles to active tab
-    $('#pricingTabs .nav-link.active').addClass('nav-link active').css({
-        'background-color': 'white',
-        'color': 'black',
-        'border-bottom': '2px solid black'
-    });
-
-    // Handle tab click events to update styles dynamically
-    $('#pricingTabs .nav-link').click(function() {
-        // Remove active styles from all tabs
-        $('#pricingTabs .nav-link').removeClass('active').css({
-            'background-color': '',
-            'color': 'black',
-            'border-bottom': ''  // Reset to default
-        });
-
-        // Apply active styles to clicked tab
-        $(this).addClass('active').css({
-            'background-color': 'white',
-            'color': 'black',
-            'border-bottom': '2px solid black'
-        });
-    });
-});
     $(document).ready(function () {
             // Initialize Slick Carousel
             $('.slider-for').slick({
@@ -581,5 +548,37 @@ Dashboard
                 // Add your search logic here
             });
         });
+
+        $(document).ready(function() {
+    // Apply styles to all nav-links
+    $('#pricingTabs .nav-link').addClass('nav-link').css({
+        'background-color': 'gray',
+        'color': 'black'
+    });
+
+    // Apply styles to active tab
+    $('#pricingTabs .nav-link.active').addClass('nav-link active').css({
+        'background-color': 'white',
+        'color': 'black',
+        'border-bottom': '2px solid black'
+    });
+
+    // Handle tab click events to update styles dynamically
+    $('#pricingTabs .nav-link').click(function() {
+        // Remove active styles from all tabs
+        $('#pricingTabs .nav-link').removeClass('active').css({
+            'background-color': 'gray',
+            'color': 'black',
+            'border-bottom': ''  // Reset to default
+        });
+
+        // Apply active styles to clicked tab
+        $(this).addClass('active').css({
+            'background-color': 'white',
+            'color': 'black',
+            'border-bottom': '2px solid black'
+        });
+    });
+});
 </script>
 @endpush
