@@ -50,7 +50,7 @@
                         </span>
                                             </div>
                                         </td>
-                                        <td id="price">${{ $subCategory->price }}</td>
+                                        <td id="price">${{ $subCategoryDetail->price }}</td>
                                         <td>
                                             <div class="quantity">
                                                 <button class="btn minus-btn" type="button" onclick="updatePrice(-1)">-</button>
@@ -82,7 +82,7 @@
                                 <div class="text_align_card_main">Price Summary</div>
                                 <div class="box_parent_text">
                                     <div class="sub_div_text">Subtotal</div>
-                                    <div class="prcie_child" id="subtotal">${{ $subCategory->price }}</div>
+                                    <div class="prcie_child" id="subtotal">${{ $subCategoryDetail->price }}</div>
                                 </div>
                                 <div class="box_parent_text">
                                     <div class="sub_div_text">Service Fee</div>
@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="box_parent_text">
                                     <div class="sub_div_text">Total</div>
-                                    <div class="prcie_child" id="total">${{ $subCategory->price }}</div>
+                                    <div class="prcie_child" id="total">${{ $subCategoryDetail->price }}</div>
                                 </div>
 
                                 <!-- Continue Button -->
@@ -107,7 +107,7 @@
 
 @push('js')
 <script>
-    const basePrice = {{ $subCategory->price }};
+    const basePrice = {{ $subCategoryDetail->price }};
     const quantityInput = document.getElementById('quantity');
     const priceElement = document.getElementById('price');
     const subtotalElement = document.getElementById('subtotal');
@@ -148,3 +148,8 @@
     });
 </script>
 @endpush
+
+<!-- filepath: d:\Laravel code\techflixapp\resources\views\website\pages\order-detail.blade.php -->
+<div class="price">
+    ${{ $subCategoryDetail->first()->price }}
+</div>

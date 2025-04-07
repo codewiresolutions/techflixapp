@@ -120,23 +120,19 @@ class HomeController extends Controller
     public function orderDetail($id)
     {
         try {
-            // Decrypt the ID received from the URL
             $decryptedId = decryptstring($id);
-            // Attempt to find the record with the decrypted ID
             $subCategory = SubCategory::findOrFail($decryptedId);
 
-            // Check if the record is not found
             if (!$subCategory) {
-                abort(404); // 404 Not Found status code
+                abort(404);
             }
 
-            // Return the view with the retrieved data
-            return view('website.pages.order-detail', compact('subCategory'));
-        } catch (Exception $e) {
-            // Log the error for debugging purposes
-            Log::error($e);
+            // Retrieve a single sub-category detail record
+            $subCategoryDetail = SubCategoryDetail::where('sub_category_id', $decryptedId)->first();
 
-            // Redirect to the custom 404 error page
+            return view('website.pages.order-detail', compact('subCategory', 'subCategoryDetail'));
+        } catch (Exception $e) {
+            Log::error($e);
             return response()->view('errors.404', [], 404);
         }
     }
@@ -171,33 +167,24 @@ class HomeController extends Controller
 
     public function confirmAndPay($id, Request $request)
     {
-
         Session::put('des_data', $request->des_data);
-
 
         $payment_methods = PaymentMethod::where('status', 1)
             ->orderBy('id', 'asc')
             ->get();
 
-
         try {
-            // Decrypt the ID received from the URL
             $decryptedId = decryptstring($id);
-            // Attempt to find the record with the decrypted ID
             $subCategory = SubCategory::findOrFail($decryptedId);
+            $sub_category_detail = SubCategoryDetail::where('sub_category_id', $decryptedId)->get();
 
-            // Check if the record is not found
             if (!$subCategory) {
-                abort(404); // 404 Not Found status code
+                abort(404);
             }
 
-            // Return the view with the retrieved data
-            return view('website.pages.confirm-and-pay', compact('subCategory', 'payment_methods'));
+            return view('website.pages.confirm-and-pay', compact('subCategory', 'sub_category_detail', 'payment_methods'));
         } catch (Exception $e) {
-            // Log the error for debugging purposes
             Log::error($e);
-
-            // Redirect to the custom 404 error page
             return response()->view('errors.404', [], 404);
         }
     }

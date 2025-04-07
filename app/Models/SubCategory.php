@@ -39,6 +39,6 @@ class SubCategory extends Model
 
     public function sub_category_details() : HasMany
     {
-        return $this->hasMany(SubCategoryDetail::class, 'sub_category_id', 'id');
+        return $this->hasMany(SubCategoryDetail::class, 'sub_category_id');
     }
 }
