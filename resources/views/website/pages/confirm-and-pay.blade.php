@@ -117,6 +117,7 @@
 
                         <form action="{{ route('payments.page', encryptstring($subCategory->id)) }}" method="GET">
                             <input type="hidden" name="payment_type" id="destinationInput">
+                            <input type="hidden" name="total_amount" id="totalAmountInput">
                             <button type="submit" class="btn btn-main btn_continue">Continue</button>
                         </form>
                     </div>
@@ -132,8 +133,42 @@
         $(document).ready(function () {
             $('.btn_continue').on('click', function () {
                 var selectedPaymentMethod = $("input[name='group1']:checked").val();
+                var totalAmount = sessionStorage.getItem('orderTotal') || '{{ $subCategory->price }}';
                 $('#destinationInput').val(selectedPaymentMethod);
+                $('#totalAmountInput').val(totalAmount);
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantity = sessionStorage.getItem('orderQuantity') || 1;
+            const subtotal = sessionStorage.getItem('orderSubtotal') || '{{ $subCategory->price }}';
+            const total = sessionStorage.getItem('orderTotal') || '{{ $subCategory->price }}';
+
+            // Update all price displays
+            const priceElements = document.querySelectorAll('.price');
+            priceElements.forEach(element => {
+                element.textContent = `$${subtotal}`;
+            });
+
+            // Update order amount
+            const orderAmountElement = document.querySelector('.d_flex .tex_delivery_time');
+            if (orderAmountElement) {
+                orderAmountElement.textContent = `$${subtotal}`;
+            }
+
+            // Update total amount
+            const totalAmountElement = document.querySelector('.d_flex.bold .tex_delivery_time');
+            if (totalAmountElement) {
+                totalAmountElement.textContent = `$${total}`;
+            }
+
+            // Update price span in img_pay section
+            const imgPayPriceElement = document.querySelector('.img_pay .text span');
+            if (imgPayPriceElement) {
+                imgPayPriceElement.textContent = `$${subtotal}`;
+            }
         });
     </script>
 @endpush

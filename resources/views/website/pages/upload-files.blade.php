@@ -57,7 +57,7 @@
                                 <div class="text_align_card_main">Price summary</div>
                                 <div class="box_parent_text">
                                     <div class="sub_div_text">Subtotal</div>
-                                    <div class="prcie_child">${{ $subCategory->price }}</div>
+                                    <div class="prcie_child" id="subtotal">${{ $subCategory->price }}</div>
                                 </div>
                                 <div class="box_parent_text">
                                     <div class="sub_div_text">Service Fee</div>
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="box_parent_text">
                                     <div class="sub_div_text">Total</div>
-                                    <div class="prcie_child">${{ $subCategory->price }}</div>
+                                    <div class="prcie_child" id="total">${{ $subCategory->price }}</div>
                                 </div>
 
                                 <!-- Form to Submit Description -->
@@ -121,6 +121,31 @@
         // Close modal on clicking close button
         $('#closemodal').click(function() {
             $('#staticBackdrop').modal('hide');
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantity = sessionStorage.getItem('orderQuantity') || 1;
+            const subtotal = sessionStorage.getItem('orderSubtotal') || '{{ $subCategory->price }}';
+            const total = sessionStorage.getItem('orderTotal') || '{{ $subCategory->price }}';
+
+            // Update quantity display if it exists
+            const quantityElement = document.getElementById('quantity');
+            if (quantityElement) {
+                quantityElement.textContent = quantity;
+            }
+
+            // Update price elements
+            const subtotalElement = document.getElementById('subtotal');
+            const totalElement = document.getElementById('total');
+
+            if (subtotalElement) {
+                subtotalElement.textContent = `$${subtotal}`;
+            }
+            if (totalElement) {
+                totalElement.textContent = `$${total}`;
+            }
         });
     </script>
 @endpush

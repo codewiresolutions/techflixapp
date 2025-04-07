@@ -116,7 +116,7 @@
 
     function updatePrice(change) {
         let quantity = parseInt(quantityInput.value) + change;
-        if (quantity < 1) quantity = 1; // Prevent quantity from going below 1
+        if (quantity < 1) quantity = 1;
         quantityInput.value = quantity;
 
         // Calculate prices
@@ -127,6 +127,24 @@
         priceElement.textContent = `$${subtotal}`;
         subtotalElement.textContent = `$${subtotal}`;
         totalElement.textContent = `$${total}`;
+
+        // Store values in sessionStorage
+        sessionStorage.setItem('orderQuantity', quantity);
+        sessionStorage.setItem('orderSubtotal', subtotal);
+        sessionStorage.setItem('orderTotal', total);
     }
+
+    // Add this code to handle the Continue button
+    document.querySelector('.btn_continue_chekout').addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+
+        // Store final values before navigation
+        sessionStorage.setItem('orderQuantity', quantityInput.value);
+        sessionStorage.setItem('orderSubtotal', subtotalElement.textContent.replace('$', ''));
+        sessionStorage.setItem('orderTotal', totalElement.textContent.replace('$', ''));
+
+        window.location.href = href;
+    });
 </script>
 @endpush

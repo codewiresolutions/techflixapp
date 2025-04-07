@@ -107,10 +107,10 @@ class PaymentsController extends Controller
                     {
                         $fromEmail = EmailSetting::first();
 						 try {
-							 
+
 							Mail::to($user->email)
 								->send(new OrdercreationEmail($order, 'techflix.com', $fromEmail->mail_from_address));
-								
+
 						 } catch (\Exception $e) {
 
 							//dd($e->getMessage());
@@ -184,15 +184,13 @@ class PaymentsController extends Controller
                                 'product_data' => [
                                     'name' => $subCategory_detail->name,
                                 ],
-                                'unit_amount' => 100 * $subCategory_detail->price,
-                                'currency' => 'USD',
+                                'unit_amount' => (int)(100 * $request->total_amount), // Convert to cents
+                                'currency' => 'usd',
                             ],
                             'quantity' => 1
                         ],
                     ],
-
                     'mode' => 'payment',
-                    'allow_promotion_codes' => true,
                 ]);
 
                 $sessionId = Session::put('sessionId', $response['id']);
@@ -374,15 +372,15 @@ class PaymentsController extends Controller
                 $payment->payment_post_status = null;
                 $payment->status = 'pending';
                 $payment->save();
-				
+
                 $baseUrl = 'https://techflix.com';
 
                 $payment_method = PaymentMethod::where('name', 'Cryptomus')->where('status', 1)->first();
 
 				$final_upload = number_format((float)$subCategory_detail->price, 2, '.', '');
-				
-				
-				
+
+
+
 				$attributes = array(
 					"amount" => $final_upload,
 					"currency" => 'USD',
@@ -395,21 +393,21 @@ class PaymentsController extends Controller
 					"is_payment_multiple" => true,
 					'additional_data'	=> strval($payment->id),
 				);
-				
-				
+
+
 				$data = json_encode($attributes);
 				$sign = md5(base64_encode($data) . $payment_method->stripe_secret );
-		
+
 				//dd($payment_method);
 
                 //$json_request = json_encode($request);
-               
+
 				$ch = curl_init();
-				
-				
+
+
 				$headers = array();
                 $headers[] = "Content-Type: application/json";
-               
+
                 $headers[] = "merchant:".$payment_method->secret_key;
                 $headers[] = "sign:$sign";
 
@@ -431,16 +429,16 @@ class PaymentsController extends Controller
                 $response = json_decode($result, true);
 
                 if( isset($response['result']['url']) ){
-					
+
 					echo "<script>window.location.href = '".$response['result']['url']."';</script>";
 					exit;
-					
+
 				}else{
 					echo "Error in processing contact administrator ".$result;
 					exit;
 				}
-				
-				
+
+
             }elseif ($request->payment_type == 'Oddoktpay') {
 
                 $desData = Session::get('des_data');
@@ -458,47 +456,47 @@ class PaymentsController extends Controller
                 $payment->payment_post_status = null;
                 $payment->status = 'pending';
                 $payment->save();
-				
+
                 $baseUrl = 'https://techflix.com';
 
                 $payment_method = PaymentMethod::where('name', 'Oddoktpay')->where('status', 1)->first();
 
 				$final_upload = number_format((float)$subCategory_detail->price, 2, '.', '');
-				
+
 				$final_upload = floatval($payment_method->paypal_sandbox_client_id) * floatval($final_upload);
-				
-				
+
+
 				$data = [
-		
+
 					'full_name'  	=> auth()->user()->email,
 					'email' 		=> auth()->user()->email,
 					'amount'        => floatval($final_upload),
-					'metadata'    	=> 
+					'metadata'    	=>
 						[
 							'order_id'    => $payment->id,
 							'product_id'  => $payment->id,
 						],
-					'redirect_url'   => $baseUrl . '/cryptomus/payment', 
+					'redirect_url'   => $baseUrl . '/cryptomus/payment',
 					'return_type'   => 'GET',
 					'cancel_url' 	 => $baseUrl . '/cryptomus/payment',
 					//'webhook_url'    => $notify_url,
-					
+
 				];
-				
-				
-				
+
+
+
 				//dd($payment_method);
 
                 //$json_request = json_encode($request);
-               
+
 				$ch = curl_init();
-				
-				
+
+
 				$headers = array();
                 $headers[] = "Content-Type: application/json";
-               
+
                 $headers[] = "RT-UDDOKTAPAY-API-KEY:".$payment_method->secret_key;
-                
+
 
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
                 curl_setopt($ch, CURLOPT_URL,  $payment_method->stripe_secret );
@@ -511,32 +509,32 @@ class PaymentsController extends Controller
                     echo 'Error:' . curl_error($ch);
                 }
                 curl_close($ch);
-				
+
 				//var_dump($result);
 				//exit;
                 //dd($result);
-				
+
                 $response = json_decode($result, true);
 
                 if( isset($response['payment_url']) ){
-					
+
 					echo "<script>window.location.href = '".$response['payment_url']."';</script>";
 					exit;
-					
+
 				}else{
 					echo "Error in processing contact administrator ".$result;
 					exit;
 				}
-				
-				
+
+
 
                 //return view('vendor.laravelperfectmoney.perfectmoney', compact('data'));
             }
-			
-			
+
+
 			dd($request->payment_type);
-			
-			
+
+
         } catch (\Exception $e) {
             // Handle the exception
 
@@ -547,7 +545,7 @@ class PaymentsController extends Controller
         }
 
 
-                
+
         // dd($subCategory_detail);
         // Example of creating an order with basic subcategory info and the first detail's type
         // You'll need to adjust this logic based on what specific info you want from the details
