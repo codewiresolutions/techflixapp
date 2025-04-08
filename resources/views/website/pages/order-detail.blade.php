@@ -148,8 +148,3 @@
     });
 </script>
 @endpush
-
-<!-- filepath: d:\Laravel code\techflixapp\resources\views\website\pages\order-detail.blade.php -->
-<div class="price">
-    ${{ $subCategoryDetail->first()->price }}
-</div>

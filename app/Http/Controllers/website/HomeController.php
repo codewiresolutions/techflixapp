@@ -117,25 +117,35 @@ class HomeController extends Controller
         }
     }
 
-    public function orderDetail($id)
-    {
-        try {
-            $decryptedId = decryptstring($id);
-            $subCategory = SubCategory::findOrFail($decryptedId);
+   // In HomeController.php
+public function orderDetail($id, Request $request)
+{
+    try {
+        $decryptedId = decryptstring($id);
+        $subCategory = SubCategory::findOrFail($decryptedId);
 
-            if (!$subCategory) {
-                abort(404);
-            }
-
-            // Retrieve a single sub-category detail record
-            $subCategoryDetail = SubCategoryDetail::where('sub_category_id', $decryptedId)->first();
-
-            return view('website.pages.order-detail', compact('subCategory', 'subCategoryDetail'));
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->view('errors.404', [], 404);
+        if (!$subCategory) {
+            abort(404);
         }
+
+        // Get the selected type from the request
+        $selectedType = $request->query('type');
+
+        // Retrieve the specific sub-category detail based on the selected type
+        $subCategoryDetail = SubCategoryDetail::where('sub_category_id', $decryptedId)
+            ->where('type', $selectedType)
+            ->first();
+
+        if (!$subCategoryDetail) {
+            abort(404);
+        }
+
+        return view('website.pages.order-detail', compact('subCategory', 'subCategoryDetail'));
+    } catch (Exception $e) {
+        Log::error($e);
+        return response()->view('errors.404', [], 404);
     }
+}
 
 
     public function uploadFile($id)

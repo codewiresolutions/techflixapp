@@ -222,8 +222,9 @@ Dashboard
                                                 </ul>
 
 
-                                                <a href="{{ route('order_detail.page', encryptstring($subCategory->id)) }}"
-                                                    class="btn btn-primary w-100 no-rounded">Continue</a>
+                                               <!-- In your service.blade.php -->
+<a href="{{ route('order_detail.page', ['id' => encryptstring($subCategory->id), 'type' => $product->type]) }}"
+    class="btn btn-primary w-100 no-rounded">Continue</a>
                                             </div>
 
                                             <!-- Standard Tab -->

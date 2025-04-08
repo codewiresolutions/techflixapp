@@ -68,10 +68,7 @@
                                     <div class="prcie_child" id="total">${{ $subCategory->price }}</div>
                                 </div>
 
-                                <div class="upload-summary">
-                                    Price: ${{ $subCategory->sub_category_details->first()->price }}
-                                </div>
-
+                               
                                 <!-- Form to Submit Description -->
                                 <form action="{{ route('confirm_and_pay.page', encryptstring($subCategory->id)) }}" method="GET">
                                     <input type="hidden" name="des_data" id="destinationInput">
