@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('sub_category_details', function (Blueprint $table) {
             $table->id();
             $table->string('type')->nullable();
-            $table->string('description')->nullable();;
-            $table->string('price')->nullable(); 
-            $table->string('delivery_time')->nullable(); 
-            $table->string('pages')->nullable(); 
-            $table->string('sub_details')->nullable(); 
+            $table->string('description')->nullable();
+            $table->string('price')->nullable();
+            $table->string('delivery_time')->nullable();
+            $table->string('pages')->nullable();
+            $table->string('sub_details')->nullable();
             $table->foreignId('sub_category_id')->constrained('sub_categories')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });

@@ -13,10 +13,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-
+use App\Mail\ContactFormMail;
+use Mail;
 class HomeController extends Controller
 {
+    public function submit(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string|max:20',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:500',
+        ]);
 
+        try {
+            $emailSettings = \App\Models\EmailSetting::first();
+
+            if(!$emailSettings) {
+                return back()->with('error', 'Email settings not configured.');
+            }
+
+            Mail::to($emailSettings->mail_from_address)
+                ->send(new ContactFormMail(
+                    $validated,
+                    $emailSettings->mail_from_name,
+                    $emailSettings->mail_from_address
+                ));
+
+            return back()->with('success', 'Thanks for reaching out! We will contact you soon.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Sorry, there was an error sending your message.');
+        }
+    }
     public function index()
     {
         return view('website.pages.home');

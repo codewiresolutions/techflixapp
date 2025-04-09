@@ -4,13 +4,11 @@
     Dashboard
 @endpush
 
-@section('content') 
+@section('content')
 
+    <main class="main_contact">
 
- 
-<main class="main_contact"> 
-    
-    <section class="conatct_us_section">
+        <section class="conatct_us_section">
       <div class="container">
         <div class="row">
           <div class="col-md-6">
@@ -26,47 +24,45 @@
                   we are here to help you ! write your query below
                </div>
             <div class="conatct_form">
-               <form action="
-               ">
-          <div class="form_group">
-               <label for="">full name</label>
-               <div class="">
-                    <input type="text" required class="form-control form_adjust">
-               </div>
-          </div>
-          <div class="form_group">
-               <label for="">email</label>
-               <div class="">
-                    <input type="email" required class="form-control form_adjust">
-               </div>
-          </div>
-          <div class="form_group">
-               <label for="">contact number</label>
-               <div class="">
-                    <input type="number" required class="form-control form_adjust">
-               </div>
-          </div>
-
-          <div class="form_group">
-           <label for="">subject</label>
-           <div class="">
-              <textarea name="" id="" class="form-control textArea" style="max-height: 80px; height: 80px !important;"></textarea>
-           </div>
-      </div>
-      <div class="form_group >
-           <label for="">subject</label>
-           <div class="">
-              <textarea name="" id="" class="form-control textArea " style="max-height: 200px; height: 200px !important;" ></textarea>
-              <div class="no_more_charct">
-                no more character than 500
-              </div>
-           </div>
-                  
-<button class="btn contact_btn btn-main"> submit</button>
-      </div>
-        
-
-          </form>
+                <form action="{{ route('contact.submit') }}" method="POST">
+                    @csrf
+                    <div class="form_group">
+                        <label for="name">Full Name</label>
+                        <div class="">
+                            <input type="text" name="name" id="name" required class="form-control form_adjust">
+                        </div>
+                    </div>
+                    <div class="form_group">
+                        <label for="email">Email</label>
+                        <div class="">
+                            <input type="email" name="email" id="email" required class="form-control form_adjust">
+                        </div>
+                    </div>
+                    <div class="form_group">
+                        <label for="phone">Contact Number</label>
+                        <div class="">
+                            <input type="text" name="phone" id="phone" required class="form-control form_adjust">
+                        </div>
+                    </div>
+                    <div class="form_group">
+                        <label for="subject">Subject</label>
+                        <div class="">
+                            <input type="text" name="subject" id="subject" required class="form-control form_adjust">
+                        </div>
+                    </div>
+                    <div class="form_group">
+                        <label for="message">Message</label>
+                        <div class="">
+                            <textarea name="message" id="message" class="form-control textArea"
+                                      style="max-height: 200px; height: 200px !important;"
+                                      maxlength="500" required></textarea>
+                            <div class="no_more_charct">
+                                no more character than 500
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn contact_btn btn-main">Submit</button>
+                </form>
             </div>
           </div>
         </div>

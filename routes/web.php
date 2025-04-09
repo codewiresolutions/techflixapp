@@ -187,7 +187,7 @@ Route::get('portfolio', [HomeController::class, 'portfolio'])->name('portfolio')
 Route::get('quiz-contest', [HomeController::class, 'quizContest'])->name('quiz.contest');
 Route::get('terms-and-conditions', [HomeController::class, 'termsAndConditions'])->name('terms.and.conditions');
 //Website MAIN MENUS  ROUTES END FROM HERE
-
+Route::post('/contact-submit', [HomeController::class, 'submit'])->name('contact.submit');
 
 Route::controller(StripePaymentController::class)->group(function () {
     Route::get('stripe', 'stripe');
