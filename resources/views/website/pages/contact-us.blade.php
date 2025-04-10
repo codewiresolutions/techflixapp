@@ -61,7 +61,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn contact_btn btn-main">Submit</button>
+                    <button type="submit" class="btn contact_btn btn-main" onclick="showAlert()">Submit</button>
                 </form>
             </div>
           </div>
@@ -73,5 +73,9 @@
   @endsection
 
 @push('js')
-
+    <script>
+        function showAlert() {
+            alert("Your email has been sent successfully. Thanks you! We will get back to you soon.");
+        }
+    </script>
 @endpush
