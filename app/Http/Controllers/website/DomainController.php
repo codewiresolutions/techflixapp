@@ -4,6 +4,7 @@ namespace App\Http\Controllers\website;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 
 class DomainController extends Controller
@@ -14,16 +15,27 @@ class DomainController extends Controller
 
         return view('website.pages.domain.index');
     }
-    public function searchdomain(Request $request)
-    {
-
-    }
-
     public function register(Request $request)
     {
         $domain = $request->input('domain');
-        $userData = $request->input('user');
-        $result = $this->resellService->registerDomain($domain, $userData);
-        return response()->json($result);
+        if (!$domain) {
+            return back()->withErrors(['domain' => 'Domain is required']);
+        }
+        $domainParts = explode('.', $domain);
+        $domainName = $domainParts[0];
+        $response = Http::get('https://domaincheck.httpapi.com/api/domains/available.json', [
+            'auth-userid' => env('API_USERID', '1098591'),
+            'api-key' => env('API_KEY', 'sFE9hHAlHVQtpmJawqOnLUZNRpIjQZQA'),
+            'domain-name' => $domainName,
+            'tlds' => 'com',
+            'tlds.' => 'net',
+        ]);
+        $results = $response->json();
+        if (isset($results['errorvalue'])) {
+            return back()->withErrors(['msg' => $results['errorvalue']['error']]);
+        }
+        return view('website.pages.domain.index', compact('results'));
     }
+
+
 }
