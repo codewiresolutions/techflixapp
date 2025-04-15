@@ -252,7 +252,7 @@ Route::get('/quiz/{quizId}/complete', [\App\Http\Controllers\website\QuizControl
 
 
 //Domain and hosting routes
-Route::post('/domain/search', [DomainController::class, 'search']);
+Route::get('/domain/search', [DomainController::class, 'search'])->name('Domain.search');;
 Route::post('/domain/register', [DomainController::class, 'register']);
 
 Route::post('/hosting/create', [HostingController::class, 'create']);

@@ -11,7 +11,8 @@ class DomainController extends Controller
 
     public function search()
     {
-        return view('search');
+
+        return view('website.pages.domain.index');
     }
     public function searchdomain(Request $request)
     {

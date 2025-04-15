@@ -27,6 +27,9 @@ $page = end($path)
                     <li class="nav-item <?php if($page=='buy_services.php'){echo 'active';} ?>">
                         <a class="nav-link" href="{{ route('buy.services') }}">buy services</a>
                     </li>
+                    <li class="nav-item <?php if($page=='buy_services.php'){echo 'active';} ?>">
+                        <a class="nav-link" href="{{ route('Domain.search') }}">Domains</a>
+                    </li>
                     <li class="nav-item <?php if($page=='blogs.php'){echo 'active';} ?>">
                         <a class="nav-link " href="{{ route('blogs') }}">blogs</a>
                     </li>
