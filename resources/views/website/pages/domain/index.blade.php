@@ -34,18 +34,18 @@
             color: #6f42c1;
         }
 
-        .card {
+        .custom-card {
             min-height: 80px;
             border: none;
             border-bottom: 1px solid #dee2e6;
             border-radius: 0;
         }
 
-        .card:first-child {
+        .custom-card:first-child {
             border-top: 1px solid #dee2e6;
         }
 
-        .card:last-child {
+        .custom-card:last-child {
             border-bottom: 1px solid #dee2e6;
         }
 
@@ -61,14 +61,49 @@
         .cart-button:hover .bi-cart-plus-fill {
             color: white !important;
         }
+
+        .input-group2 span {
+            position: absolute;
+            left: 92%;
+            top: 3px;
+            z-index: 10;
+            cursor: pointer;
+        }
+        .input-group-text2 {
+            display: flex
+        ;
+            align-items: center;
+
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+
+            text-align: center;
+            white-space: nowrap;
+
+        }
+        .form-control2 {
+            background-color: #f1f1f1 !important;
+            border: none;
+            height: 45px !important;
+            /*border-radius: 15px !important;*/
+            cursor: pointer;
+        display: block;
+        width: 100%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        }
+
     </style>
 </head>
 <body>
 <div class="custom-container mt-5">
     <div class="row">
         <div class="col-9">
-            <div class="input-group">
-                <input type="text" class="form-control py-2" placeholder="Search...">
+            <div class="input-group2">
+                <input type="text" class="form-control2 " placeholder="Search...">
                 <span class="input-group-text">
                     <i class="bi bi-search"></i>
                 </span>
@@ -82,7 +117,7 @@
     <div class="row mt-3 mb-3">
         <!-- Card 1 -->
         <div class="col-12">
-            <div class="card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
+            <div class="custom-card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
                 <!-- Domain Info -->
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center flex-wrap">
@@ -126,7 +161,7 @@
 
         <!-- Card 2 -->
         <div class="col-12">
-            <div class="card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
+            <div class="custom-card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
                 <!-- Domain Info -->
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center">
@@ -162,7 +197,7 @@
 
         <!-- Card 3 -->
         <div class="col-12">
-            <div class="card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
+            <div class="custom-card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
                 <!-- Domain Info -->
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center flex-wrap">
@@ -206,7 +241,7 @@
 
         <!-- Card 4 -->
         <div class="col-12">
-            <div class="card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
+            <div class="custom-card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
                 <!-- Domain Info -->
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center">
@@ -241,7 +276,7 @@
 
         <!-- Card 5 -->
         <div class="col-12">
-            <div class="card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
+            <div class="custom-card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
                 <!-- Domain Info -->
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center flex-wrap">
@@ -286,7 +321,7 @@
 
         <!-- Card 6 -->
         <div class="col-12">
-            <div class="card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
+            <div class="custom-card d-flex flex-row align-items-center justify-content-between" style="padding: 12px;">
                 <!-- Domain Info -->
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center flex-wrap">
