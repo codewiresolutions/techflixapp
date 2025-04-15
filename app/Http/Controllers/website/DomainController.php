@@ -4,22 +4,18 @@ namespace App\Http\Controllers\website;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\ResellService;
+
 
 class DomainController extends Controller
 {
-    protected $resellService;
 
-    public function __construct(ResellService $resellService)
+    public function search()
     {
-        $this->resellService = $resellService;
+        return view('search');
     }
-
-    public function search(Request $request)
+    public function searchdomain(Request $request)
     {
-        $domain = $request->input('domain');
-        $result = $this->resellService->searchDomain($domain);
-        return response()->json($result);
+
     }
 
     public function register(Request $request)
