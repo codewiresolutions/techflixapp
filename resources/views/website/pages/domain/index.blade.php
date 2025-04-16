@@ -118,7 +118,7 @@
                                     </div>
                                 @elseif ($data['status'] === 'regthroughothers')
                                     <div class="d-flex align-items-center flex-wrap">
-                                        <span class="badge bg-secondary text-white me-2">Registered</span>
+                                        <span class="badge bg-secondary text-white me-2">Allready Registered</span>
                                     </div>
                                 @endif
                                 <div class="d-flex align-items-center mt-2">

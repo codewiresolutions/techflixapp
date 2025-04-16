@@ -18,23 +18,31 @@ class DomainController extends Controller
     public function register(Request $request)
     {
         $domain = $request->input('domain');
+
         if (!$domain) {
             return back()->withErrors(['domain' => 'Domain is required']);
         }
+
         $domainParts = explode('.', $domain);
         $domainName = $domainParts[0];
-        $response = Http::get('https://domaincheck.httpapi.com/api/domains/available.json', [
+
+        // Build query manually to support repeated 'tlds'
+        $query = http_build_query([
             'auth-userid' => env('API_USERID', '1098591'),
             'api-key' => env('API_KEY', 'sFE9hHAlHVQtpmJawqOnLUZNRpIjQZQA'),
             'domain-name' => $domainName,
-            'tlds' => 'com',
-            'tlds.' => 'net',
-        ]);
+        ]) . '&tlds=com&tlds=net';
+
+        $response = Http::get("https://domaincheck.httpapi.com/api/domains/available.json?$query");
+
         $results = $response->json();
+
         if (isset($results['errorvalue'])) {
             return back()->withErrors(['msg' => $results['errorvalue']['error']]);
         }
+
         return view('website.pages.domain.index', compact('results'));
+
     }
 
 
