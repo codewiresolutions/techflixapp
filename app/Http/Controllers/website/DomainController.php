@@ -5,7 +5,7 @@ namespace App\Http\Controllers\website;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use SimpleXMLElement;
 
 class DomainController extends Controller
 {
@@ -26,23 +26,38 @@ class DomainController extends Controller
         $domainParts = explode('.', $domain);
         $domainName = $domainParts[0];
 
-        // Build query manually to support repeated 'tlds'
+        // Build query for premium domain check
         $query = http_build_query([
-            'auth-userid' => env('API_USERID', '1098591'),
-            'api-key' => env('API_KEY', 'sFE9hHAlHVQtpmJawqOnLUZNRpIjQZQA'),
-            'domain-name' => $domainName,
-        ]) . '&tlds=com&tlds=net';
+                'auth-userid' => env('API_USERID', '1098591'),
+                'api-key' => env('API_KEY', 'sFE9hHAlHVQtpmJawqOnLUZNRpIjQZQA'),
+                'key-word' => $domainName,
+            ]) . '&tlds=com&tlds=net&tlds=org';
 
-        $response = Http::get("https://domaincheck.httpapi.com/api/domains/available.json?$query");
+        try {
+            $response = Http::get("https://domaincheck.httpapi.com/api/domains/premium/available.xml?$query");
 
-        $results = $response->json();
+            if ($response->failed()) {
+                return back()->withErrors(['msg' => 'Failed to connect to domain API']);
+            }
 
-        if (isset($results['errorvalue'])) {
-            return back()->withErrors(['msg' => $results['errorvalue']['error']]);
+            // Parse XML response
+            $xml = new SimpleXMLElement($response->body());
+
+
+            $results = [];
+
+            foreach ($xml->entry as $entry) {
+                $results[] = [
+                    'domain' => (string) $entry->string[0],
+                    'price' => (float) $entry->string[1]
+                ];
+            }
+
+            return view('website.pages.domain.index', compact('results'));
+
+        } catch (\Exception $e) {
+            return back()->withErrors(['msg' => 'Error processing domain search: ' . $e->getMessage()]);
         }
-
-        return view('website.pages.domain.index', compact('results'));
-
     }
 
 
